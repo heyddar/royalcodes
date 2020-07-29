@@ -25,4 +25,9 @@ Route::prefix('v1')->group(function (){
         Route::get('/user','Api\v01\Auth\AuthController@user')->name('auth.user');
         Route::post('/logout','Api\v01\Auth\AuthController@logout')->name('auth.logout');
     });
+    //Channel Routes
+    Route::prefix('/channel')->group(function (){
+        Route::get('/index','Api\v01\Channel\ChannelController@index')->name('channel.index');
+        Route::post('/create','Api\v01\Channel\ChannelController@create')->name('channel.create');
+    });
 });
