@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v01\Channel;
 use App\Channel;
 use App\Http\Controllers\Controller;
 use App\Repositories\ChannelRepository;
+use http\Client\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -16,7 +17,7 @@ class ChannelController extends Controller
      */
     public function index()
     {
-        return response()->json(Channel::all(),200);
+        return response()->json(resolve(ChannelRepository::class)->index(),\Symfony\Component\HttpFoundation\Response::HTTP_OK);
     }
 
     /**
@@ -35,8 +36,45 @@ class ChannelController extends Controller
 
         return response()->json([
             'message'   =>  "channel created successfully"
-        ],201);
+        ], \Symfony\Component\HttpFoundation\Response::HTTP_CREATED);
     }
 
+    /**
+     * Update Channel
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function edit(Request $request)
+    {
+        $request->validate([
+            'name'  =>  'required'
+        ]);
+        //Update Channel To Database
+        resolve(ChannelRepository::class)->update($request);
+
+
+
+        return response()->json([
+            'message'   =>  'channel edited successfully'
+        ], \Symfony\Component\HttpFoundation\Response::HTTP_OK);
+    }
+
+    /**
+     * Delete  Channel(s)
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function delete(Request $request)
+    {
+        $request->validate([
+            'id'  =>  'required'
+        ]);
+        //Delete Channel To Database
+        resolve(ChannelRepository::class)->delete($request);
+
+        return response()->json([
+            'message'   => 'channel deleted successfully'
+        ],\Symfony\Component\HttpFoundation\Response::HTTP_OK);
+    }
 
 }
