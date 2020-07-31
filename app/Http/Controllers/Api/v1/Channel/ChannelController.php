@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\v01\Channel;
+namespace App\Http\Controllers\Api\v1\Channel;
 
 use App\Channel;
 use App\Http\Controllers\Controller;

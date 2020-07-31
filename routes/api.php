@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,22 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-
 Route::prefix('v1')->group(function (){
 
     //Authentication Routes
-    Route::prefix('/auth')->group(function (){
-        Route::post('/register','Api\v01\Auth\AuthController@register')->name('auth.register');
-        Route::post('/login','Api\v01\Auth\AuthController@login')->name('auth.login');
-        Route::get('/user','Api\v01\Auth\AuthController@user')->name('auth.user');
-        Route::post('/logout','Api\v01\Auth\AuthController@logout')->name('auth.logout');
-    });
+    include __DIR__.'\v1\auth_routes.php';
     //Channel Routes
-    Route::prefix('/channel')->group(function (){
-        Route::get('/index','Api\v01\Channel\ChannelController@index')->name('channel.index');
-        Route::post('/create','Api\v01\Channel\ChannelController@create')->name('channel.create');
-        Route::put('/update','Api\v01\Channel\ChannelController@edit')->name('channel.update');
-        Route::delete('/delete','Api\v01\Channel\ChannelController@delete')->name('channel.delete');
-    });
+    include __DIR__.'\v1\channel_routes.php';
+
 });

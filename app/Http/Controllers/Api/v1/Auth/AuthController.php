@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\v01\Auth;
+namespace App\Http\Controllers\Api\v1\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
@@ -29,7 +29,11 @@ class AuthController extends Controller
             'password'  =>  ['required']
         ]);
         //Insert User To Database
-        resolve(UserRepository::class)->create($request);
+        $user = resolve(UserRepository::class)->create($request);
+
+        $defaultSuperAdminEmail = config('permission.default_super_admin_email');
+        $user->email == $defaultSuperAdminEmail ? $user->assignRole('Super Admin') : $user->assignRole('User');
+
 
         return response()->json([
             'message' => "user created successfully"

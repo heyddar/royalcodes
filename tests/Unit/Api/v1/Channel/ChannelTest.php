@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Unit\Http\Controllers\Api\v01\Channel;
+namespace Tests\Unit\Api\v1\Channel;
 
 use App\Channel;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
-class ChannelControllerTest extends TestCase
+class ChannelTest extends TestCase
 {
 
     /**
