@@ -17,7 +17,11 @@ Route::prefix('v1')->group(function (){
 
     //Authentication Routes
     include __DIR__.'\v1\auth_routes.php';
+
     //Channel Routes
     include __DIR__.'\v1\channel_routes.php';
+
+    //Thread Routes
+    include __DIR__.'\v1\thread_routes.php';
 
 });
