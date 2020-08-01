@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
+    protected $guarded = [];
     public function channel()
     {
         $this->belongsTo(Channel::class);
