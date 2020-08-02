@@ -11,16 +11,29 @@ use Illuminate\Support\Str;
 
 class ThreadRepository
 {
+    /**
+     * Index Thread
+     * @return mixed
+     */
     public function getAllAvailableThreads()
     {
         return Thread::whereFlag(1)->latest()->get();
     }
 
+    /**
+     * Show Thread
+     * @param $slug
+     * @return mixed
+     */
     public function getThreadBySlug($slug)
     {
         return Thread::whereSlug($slug)->whereFlag(1)->first();;
     }
 
+    /**
+     * Store Thread
+     * @param Request $request
+     */
     public function store(Request $request)
     {
         Thread::create([
@@ -29,6 +42,19 @@ class ThreadRepository
             'content'       => $request->input('content'),
             'channel_id'    => $request->input('channel_id'),
             'user_id'       => auth()->user()->id,
+        ]);
+    }
+    /**
+     * Update Thread
+     * @param Request $request
+     */
+    public function update(Request $request, Thread $thread): void
+    {
+        $thread->update([
+            'title'         => $request->input('title'),
+            'slug'          => Str::slug($request->input('title')) ,
+            'content'       => $request->input('content'),
+            'channel_id'    => $request->input('channel_id'),
         ]);
     }
 }

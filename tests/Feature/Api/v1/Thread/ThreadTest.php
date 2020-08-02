@@ -55,4 +55,31 @@ class ThreadTest extends TestCase
         $response->assertStatus(Response::HTTP_CREATED);
     }
 
+    /** @test */
+    public function thread_update_should_be_validated()
+    {
+
+        Sanctum::actingAs(factory(User::class)->create());
+        $thread = factory(Thread::class)->create();
+        $response = $this->Json('PUT',route('threads.update',[$thread]));
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+    public function can_update_thread()
+    {
+
+        Sanctum::actingAs(factory(User::class)->create());
+        $thread = factory(Thread::class)->create([
+            'title' => 'laravel'
+        ]);
+        $response = $this->Json('PUT',route('threads.update', [
+            'id'        => $thread->id,
+            'title'     => 'foo',
+        ]))->assertSuccessful();
+        $updateThread = Thread::find($thread->id);
+
+        $this->assertEquals('foo',$updateThread->title);
+
+    }
+
 }
