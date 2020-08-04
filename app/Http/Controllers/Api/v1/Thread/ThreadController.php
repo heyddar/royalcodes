@@ -63,7 +63,12 @@ class ThreadController extends Controller
      */
     public function update(Request $request, Thread $thread)
     {
-        $request->validate([
+        $request->has('best_answer_id')
+            ?
+            $request->validate([
+                'best_answer_id'         => 'required',
+            ])
+        :$request->validate([
             'title'         => 'required',
             'content'       => 'required',
             'channel_id'    => 'required',
@@ -76,4 +81,16 @@ class ThreadController extends Controller
         ], \Symfony\Component\HttpFoundation\Response::HTTP_OK);
     }
 
+    /**
+     * Destroy Thread
+     * @param $id
+     */
+    public function destroy($id)
+    {
+        resolve(ThreadRepository::class)->destroy($id);
+
+        return response()->json([
+            'message'   =>  'thread deleted successfully'
+        ], \Symfony\Component\HttpFoundation\Response::HTTP_OK);
+    }
 }

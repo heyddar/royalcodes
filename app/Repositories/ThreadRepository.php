@@ -50,11 +50,31 @@ class ThreadRepository
      */
     public function update(Request $request, Thread $thread): void
     {
-        $thread->update([
-            'title'         => $request->input('title'),
-            'slug'          => Str::slug($request->input('title')) ,
-            'content'       => $request->input('content'),
-            'channel_id'    => $request->input('channel_id'),
-        ]);
+
+
+        if (!$request->has('best_answer_id'))
+        {
+            $thread->update([
+                'title'         => $request->input('title'),
+                'slug'          => Str::slug($request->input('title')) ,
+                'content'       => $request->input('content'),
+                'channel_id'    => $request->input('channel_id'),
+            ]);
+
+        }else{
+            $thread->update([
+                'best_answer_id'    => $request->input('best_answer_id'),
+            ]);
+        }
+    }
+
+    /**
+     * Destroy Thread
+     * @param $id
+     */
+    public function destroy($id)
+    {
+        Thread::destroy($id);
+
     }
 }
