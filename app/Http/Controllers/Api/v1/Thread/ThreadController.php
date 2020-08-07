@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\ThreadRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -73,24 +74,33 @@ class ThreadController extends Controller
             'content'       => 'required',
             'channel_id'    => 'required',
             ]);
-        //Update Thread To Database
-        resolve(ThreadRepository::class)->update($request,$thread);
 
+        //Update Thread To Database
+        if(Gate::forUser(auth()->user())->allows('user-thread', $thread)){
+            resolve(ThreadRepository::class)->update($request,$thread);
+            return response()->json([
+                'message'   =>  'thread edited successfully'
+            ], \Symfony\Component\HttpFoundation\Response::HTTP_OK);
+        }
         return response()->json([
-            'message'   =>  'thread edited successfully'
-        ], \Symfony\Component\HttpFoundation\Response::HTTP_OK);
+            'message'   =>  'access denied'
+        ], \Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
+
     }
 
-    /**
-     * Destroy Thread
-     * @param $id
-     */
-    public function destroy($id)
-    {
-        resolve(ThreadRepository::class)->destroy($id);
 
+    public function destroy(Thread $thread)
+    {
+        if(Gate::forUser(auth()->user())->allows('user-thread', $thread)){
+            resolve(ThreadRepository::class)->destroy($thread);
+            return response()->json([
+                'message'   =>  'thread deleted successfully'
+            ], \Symfony\Component\HttpFoundation\Response::HTTP_OK);
+        }
         return response()->json([
-            'message'   =>  'thread deleted successfully'
-        ], \Symfony\Component\HttpFoundation\Response::HTTP_OK);
+            'message'   =>  'access denied'
+        ], \Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
+
+
     }
 }

@@ -67,10 +67,11 @@ class ThreadTest extends TestCase
     }
     public function can_update_thread()
     {
-
-        Sanctum::actingAs(factory(User::class)->create());
+        $user = factory(User::class)->create();
+        Sanctum::actingAs($user);
         $thread = factory(Thread::class)->create([
-            'title' => 'laravel'
+            'title'  => 'laravel',
+            'user_id'=> $user->id
         ]);
         $response = $this->Json('PUT',route('threads.update', [
             'id'        => $thread->id,
@@ -83,9 +84,11 @@ class ThreadTest extends TestCase
     }
     public function can_add_best_answer_id_for_thread()
     {
-
-        Sanctum::actingAs(factory(User::class)->create());
-        $thread = factory(Thread::class)->create();
+        $user = factory(User::class)->create();
+        Sanctum::actingAs($user);
+        $thread = factory(Thread::class)->create([
+            'user_id'=> $user->id
+        ]);
         $response = $this->Json('PUT',route('threads.update', [
             'best_answer_id'        => 1,
 
@@ -99,9 +102,11 @@ class ThreadTest extends TestCase
     /** @test */
     public function can_delete_thread()
     {
-        Sanctum::actingAs(factory(User::class)->create());
-
-        $thread = factory(Thread::class)->create();
+        $user = factory(User::class)->create();
+        Sanctum::actingAs($user);
+        $thread = factory(Thread::class)->create([
+            'user_id'=> $user->id
+        ]);
 
         $response = $this->delete(route('threads.destroy',[$thread->id]));
 

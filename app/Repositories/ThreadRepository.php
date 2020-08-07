@@ -68,13 +68,10 @@ class ThreadRepository
         }
     }
 
-    /**
-     * Destroy Thread
-     * @param $id
-     */
-    public function destroy($id)
-    {
-        Thread::destroy($id);
 
+
+    public function destroy(Thread $thread)
+    {
+        $thread->delete();
     }
 }
