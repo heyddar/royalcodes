@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api\v1\Thread;
 
+use App\Answer;
 use App\Thread;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -50,5 +51,41 @@ class AnswerTest extends TestCase
             'message' => 'answer submitted successfully'
         ]);
         $this->assertTrue($thread->answers()->where('content', 'Foo')->exists());
+    }
+    /**
+     * @test
+     */
+    function update_answer_should_be_validated()
+    {
+        $answer = factory(Answer::class)->create();
+
+        $response = $this->putJson(route('answers.update',[$answer]),[]);
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+
+        $response->assertJsonValidationErrors(['content']);
+    }
+    /**
+     * @test
+     */
+    function can_answer_of_thread()
+    {
+        Sanctum::actingAs(factory(User::class)->create());
+
+        $answer = factory(Answer::class)->create([
+            'content' => 'foo'
+        ]);
+
+        $response = $this->putJson(route('answers.update',[$answer]), [
+            'content' => 'bar',
+        ]);
+
+        $answer->refresh();
+
+        $response->assertStatus(Response::HTTP_OK);
+        $response->assertJson([
+            'message' => 'answer updated successfully'
+        ]);
+        $this->assertEquals('bar',$answer->content);
     }
 }

@@ -26,6 +26,12 @@ class AnswerRepository
             'user_id' => auth()->id()
         ]);
     }
+    public function update(Request $request ,Answer $answer)
+    {
+        $answer->update([
+            'content' => $request->input('content'),
+        ]);
+    }
 
 
 }
