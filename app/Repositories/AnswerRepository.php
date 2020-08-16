@@ -32,6 +32,11 @@ class AnswerRepository
             'content' => $request->input('content'),
         ]);
     }
+    public function destroy(Answer $answer)
+    {
+        $answer->delete();
+
+    }
 
 
 }

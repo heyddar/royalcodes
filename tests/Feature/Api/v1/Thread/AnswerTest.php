@@ -68,7 +68,7 @@ class AnswerTest extends TestCase
     /**
      * @test
      */
-    function can_answer_of_thread()
+    function can_update_own_answer_of_thread()
     {
         Sanctum::actingAs(factory(User::class)->create());
 
@@ -87,5 +87,20 @@ class AnswerTest extends TestCase
             'message' => 'answer updated successfully'
         ]);
         $this->assertEquals('bar',$answer->content);
+    }
+    /**
+     * @test
+     */
+    function can_delete_own_answer()
+    {
+        Sanctum::actingAs(factory(User::class)->create());
+        $answer = factory(Answer::class)->create();
+        $response = $this->delete(route('answers.destroy',[$answer]));
+        $response->assertStatus(Response::HTTP_OK);
+        $response->assertJson([
+            'message' => 'answer deleted successfully'
+        ]);
+        $this->assertFalse(Thread::find($answer->thread_id)->answers()->wherecontent($answer->content)->exists());
+
     }
 }

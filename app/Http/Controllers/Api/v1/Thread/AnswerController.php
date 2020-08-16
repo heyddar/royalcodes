@@ -47,6 +47,10 @@ class AnswerController extends Controller
 
     public function destroy(Answer $answer)
     {
-        //
+        resolve(AnswerRepository::class)->destroy($answer);
+
+        return \response()->json([
+            'message' => 'answer deleted successfully'
+        ],Response::HTTP_OK);
     }
 }
