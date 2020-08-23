@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\Api\v1\Thread;
 
 use App\Http\Controllers\Controller;
 use App\Subscribe;
@@ -27,7 +27,7 @@ class SubscribeController extends Controller
     {
        Subscribe::query()->where([
            ['thread_id',$thread->id],
-           ['user_id',auth()->id]
+           ['user_id',auth()->user()->id]
        ])->delete();
         return response()->json([
             'message' => 'user unsubscribed successfully'

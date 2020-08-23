@@ -18,7 +18,7 @@ class CreateSubscribesTable extends Migration
             $table->foreignId('user_id')
                 ->constrained()
                 ->onDelete('cascade');
-            $table->foreignId('channel_id')
+            $table->foreignId('thread_id')
                 ->constrained()
                 ->onDelete('cascade');
             $table->timestamps();
