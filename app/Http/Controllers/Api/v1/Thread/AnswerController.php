@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Api\v1\Thread;
 
 use App\Answer;
 use App\Http\Controllers\Controller;
+use App\Notifications\NewReplySubmited;
 use App\Repositories\AnswerRepository;
+use App\Subscribe;
 use App\Thread;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
 
 class AnswerController extends Controller
@@ -28,6 +31,8 @@ class AnswerController extends Controller
 
         resolve(AnswerRepository::class)->store($request);
 
+        $notifiable_user = Subscribe::query()->where('thread_id',$request->thread_id)->pluck('user_id')->all();
+        Notification::send($notifiable_user, new NewReplySubmited(Thread::find($request->thread_id)));
         return \response()->json([
             'message' => 'answer submitted successfully'
         ], Response::HTTP_CREATED);
