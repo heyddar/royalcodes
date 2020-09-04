@@ -36,6 +36,12 @@ class AnswerController extends Controller
 
         $notifiable_user = resolve(SubscribeRepository::class)->getNotifiableUsers($request->thread_id);
         Notification::send(resolve(UserRepository::class)->find($notifiable_user), new NewReplySubmited(Thread::find($request->thread_id)));
+
+        //Increase User Score
+        if(Thread::find($request->input('thread_id'))->user_id !== auth()->user()->id){
+            auth()->user()->increment('score',10);
+        }
+
         return \response()->json([
             'message' => 'answer submitted successfully'
         ], Response::HTTP_CREATED);
