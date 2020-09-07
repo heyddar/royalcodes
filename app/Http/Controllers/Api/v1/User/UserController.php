@@ -19,4 +19,9 @@ class UserController extends Controller
     {
         return \response()->json(\auth()->user()->unreadNotifications(), Response::HTTP_OK);
     }
+
+    public function leaderboards()
+    {
+        return resolve(UserRepository::class)->leaderboards();
+    }
 }

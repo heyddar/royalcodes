@@ -27,4 +27,12 @@ class UserRepository
 
         ]);
     }
+
+    /**
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function leaderboards()
+    {
+        return User::query()->orderByDesc('score')->paginate(20);
+    }
 }
