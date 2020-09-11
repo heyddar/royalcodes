@@ -34,6 +34,7 @@ class ThreadTest extends TestCase
     /** @test */
     public function thread_should_be_validated()
     {
+        Sanctum::actingAs(factory(User::class)->create());
 
         $response = $this->postJson(route('threads.store', []));
 
