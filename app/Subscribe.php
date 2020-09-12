@@ -10,10 +10,10 @@ class Subscribe extends Model
 
     public function user()
     {
-        $this->belongsTo(User::class);
+       return $this->belongsTo(User::class);
     }
     public function Thread()
     {
-        $this->belongsTo(Thread::class);
+       return $this->belongsTo(Thread::class);
     }
 }

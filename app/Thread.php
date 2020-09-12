@@ -9,11 +9,11 @@ class Thread extends Model
     protected $guarded = [];
     public function channel()
     {
-        $this->belongsTo(Channel::class);
+       return $this->belongsTo(Channel::class);
     }
     public function user()
     {
-        $this->belongsTo(User::class);
+      return  $this->belongsTo(User::class);
     }
     public function answers()
     {
