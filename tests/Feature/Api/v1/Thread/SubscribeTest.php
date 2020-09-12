@@ -2,15 +2,11 @@
 
 namespace Tests\Feature\Api\v1\Thread;
 
-use App\Channel;
 use App\Notifications\NewReplySubmited;
 use App\Thread;
 use App\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Sanctum\Sanctum;
-use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class SubscribeTest extends TestCase
