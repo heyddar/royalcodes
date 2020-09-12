@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\v1\Thread;
 use App\Http\Controllers\Controller;
 use App\Subscribe;
 use App\Thread;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class SubscribeController extends Controller

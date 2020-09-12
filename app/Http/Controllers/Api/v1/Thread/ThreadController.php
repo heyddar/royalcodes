@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Api\v1\Thread;
 
-use App\Repositories\ChannelRepository;
 use App\Thread;
 use App\Http\Controllers\Controller;
 use App\Repositories\ThreadRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 class ThreadController extends Controller
@@ -87,11 +85,11 @@ class ThreadController extends Controller
             resolve(ThreadRepository::class)->update($request,$thread);
             return response()->json([
                 'message'   =>  'thread edited successfully'
-            ], \Symfony\Component\HttpFoundation\Response::HTTP_OK);
+            ], Response::HTTP_OK);
         }
         return response()->json([
             'message'   =>  'access denied'
-        ], \Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
+        ], Response::HTTP_FORBIDDEN);
 
     }
 
@@ -102,11 +100,11 @@ class ThreadController extends Controller
             resolve(ThreadRepository::class)->destroy($thread);
             return response()->json([
                 'message'   =>  'thread deleted successfully'
-            ], \Symfony\Component\HttpFoundation\Response::HTTP_OK);
+            ], Response::HTTP_OK);
         }
         return response()->json([
             'message'   =>  'access denied'
-        ], \Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
+        ], Response::HTTP_FORBIDDEN);
 
 
     }

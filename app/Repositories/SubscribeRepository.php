@@ -4,11 +4,8 @@
 namespace App\Repositories;
 
 
-use App\Answer;
 use App\Subscribe;
-use App\Thread;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+
 
 class SubscribeRepository
 {

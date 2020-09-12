@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Api\v1\Channel;
 
-use App\Channel;
 use App\Http\Controllers\Controller;
 use App\Repositories\ChannelRepository;
-use http\Client\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
 
 class ChannelController extends Controller
 {
@@ -36,7 +34,7 @@ class ChannelController extends Controller
 
         return response()->json([
             'message'   =>  "channel created successfully"
-        ], \Symfony\Component\HttpFoundation\Response::HTTP_CREATED);
+        ], Response::HTTP_CREATED);
     }
 
     /**
@@ -52,11 +50,9 @@ class ChannelController extends Controller
         //Update Channel To Database
         resolve(ChannelRepository::class)->update($request);
 
-
-
         return response()->json([
             'message'   =>  'channel edited successfully'
-        ], \Symfony\Component\HttpFoundation\Response::HTTP_OK);
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -74,7 +70,7 @@ class ChannelController extends Controller
 
         return response()->json([
             'message'   => 'channel deleted successfully'
-        ],\Symfony\Component\HttpFoundation\Response::HTTP_OK);
+        ],Response::HTTP_OK);
     }
 
 }
