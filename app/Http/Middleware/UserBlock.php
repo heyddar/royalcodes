@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Repositories\UserRepository;
 use Closure;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,7 +17,7 @@ class UserBlock
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user()->whereBlock(false)){
+        if (! resolve(UserRepository::class)->isBlock()){
             return $next($request);
         }
         return response()->json([
